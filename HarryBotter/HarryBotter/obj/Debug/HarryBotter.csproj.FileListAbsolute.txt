@@ -35,6 +35,5 @@ C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\bin\fr\Microsoft.Bot.Builder.r
 C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\bin\ja\Microsoft.Bot.Builder.resources.dll
 C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\bin\ru\Microsoft.Bot.Builder.resources.dll
 C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
-C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\obj\Debug\HarryBotter.csprojResolveAssemblyReference.cache
 C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\obj\Debug\Bot Application.dll
 C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter\obj\Debug\Bot Application.pdb
