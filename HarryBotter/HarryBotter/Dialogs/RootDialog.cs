@@ -44,9 +44,12 @@ namespace HarryBotter.Dialogs
             }
         }
 
-        private Task AfterCarMakeDialog(IDialogContext context, IAwaitable<object> result)
+        private async Task AfterCarMakeDialog(IDialogContext context, IAwaitable<object> result)
         {
-            throw new NotImplementedException();
+            var message = await result;
+
+            
+
         }
     }
 }
