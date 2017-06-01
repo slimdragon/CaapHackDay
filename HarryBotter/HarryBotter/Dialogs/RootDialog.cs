@@ -33,7 +33,18 @@ namespace HarryBotter.Dialogs
             await context.PostAsync("I'm terribly sorry, I cannot do Selling or Inquiry at the moment :(");
         }
 
-        private Task AfterVehicleTypeDialog(IDialogContext context, IAwaitable<string> result)
+        private async Task AfterVehicleTypeDialog(IDialogContext context, IAwaitable<string> result)
+        {
+            var message = await result;
+
+            if(message == "Car")
+            {
+                context.Call(new CarMakeDialog(), AfterCarMakeDialog);
+
+            }
+        }
+
+        private Task AfterCarMakeDialog(IDialogContext context, IAwaitable<object> result)
         {
             throw new NotImplementedException();
         }

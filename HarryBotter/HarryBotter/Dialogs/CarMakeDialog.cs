@@ -1,15 +1,34 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
+using HarryBotter.DataService;
 
 namespace HarryBotter.Dialogs
 {
     [Serializable]
     public class CarMakeDialog : IDialog<object>
     {
-        public Task StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
-            throw new NotImplementedException();
+            var carMakes = new CarDataService().ListMakes();
+            PromptDialog.Choice(context, HandleCarMake, carMakes, "choose a car make please?");
         }
+
+        private async Task HandleCarMake(IDialogContext context, IAwaitable<string> result)
+        {
+            var message = await result;
+            
+            await context.PostAsync(message);
+        }
+
+        //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        //{
+        //    var message = await result;
+        //    await context.PostAsync("Hey there! You said: " + message.Text);
+        //    context.Wait(MessageReceivedAsync);
+        //}
+
+       
     }
 }
