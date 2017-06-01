@@ -17,8 +17,6 @@ namespace HarryBotter.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            context.PostAsync("Hi there. Welcome to Pickles Auctions.");
-            await context.PostAsync("My name is Harry Botter, and I'm here to assist you.");
             context.Call(new InitialOptionsDialog(), AfterInitialOptionsDialog);
         }
 
