@@ -1,5 +1,0 @@
-C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter.DataService\bin\Debug\HarryBotter.DataService.dll
-C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter.DataService\bin\Debug\HarryBotter.DataService.pdb
-C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter.DataService\obj\Debug\HarryBotter.DataService.csprojResolveAssemblyReference.cache
-C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter.DataService\obj\Debug\HarryBotter.DataService.dll
-C:\Code\Props\CaapHackDay\HarryBotter\HarryBotter.DataService\obj\Debug\HarryBotter.DataService.pdb
