@@ -11,23 +11,24 @@ namespace HarryBotter.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            context.Wait(MessageReceivedAsync);
+            var carMakes = new CarDataService().ListMakes();
+            PromptDialog.Choice(context, HandleCarMake, carMakes, "choose a car make please?");
         }
 
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        private async Task HandleCarMake(IDialogContext context, IAwaitable<string> result)
         {
             var message = await result;
-            await context.PostAsync("Hey there! You said: " + message.Text);
-            context.Wait(MessageReceivedAsync);
+            
+            await context.PostAsync(message);
         }
 
-        private async Task AfterMakeAsync(IDialogContext context, IAwaitable<string> result)
-        {
-            var text = await result;
+        //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        //{
+        //    var message = await result;
+        //    await context.PostAsync("Hey there! You said: " + message.Text);
+        //    context.Wait(MessageReceivedAsync);
+        //}
 
-            await context.PostAsync("inside AfterResetAsync");
-
-            context.Wait(MessageReceivedAsync);
-        }
+       
     }
 }
