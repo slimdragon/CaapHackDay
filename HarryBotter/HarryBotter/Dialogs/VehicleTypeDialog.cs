@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HarryBotter.DataService;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace HarryBotter.Dialogs
 {
     [Serializable]
-    public class VehicleTypeDialog : IDialog<object>
+    public class VehicleTypeDialog : IDialog<string>
     {
-        public Task StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
-            throw new NotImplementedException();
+            var vehicleTypes = new VehicleTypesDataService().ListVehicleTypes();
+            PromptDialog.Choice(context,HandleVehicleType, vehicleTypes,"What vehicle type?");
+        }
+
+        private async Task HandleVehicleType(IDialogContext context, IAwaitable<object> result)
+        {
+            await context.PostAsync("Thanks!");
+            context.Done(result.GetAwaiter().GetResult());
         }
     }
 }

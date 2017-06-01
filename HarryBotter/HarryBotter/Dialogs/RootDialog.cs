@@ -9,22 +9,33 @@ namespace HarryBotter.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
-        public Task StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
-            return Task.CompletedTask;
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            PromptDialog.Choice(context, HandleUserChoice, new [] { "Buy", "Sell", "Inquiry" }, "What are you up to today?!",string.Empty);
+            context.PostAsync("Hi there. Welcome to Pickles Auctions.");
+            await context.PostAsync("My name is Harry Botter, and I'm here to assist you.");
+            context.Call(new InitialOptionsDialog(), AfterInitialOptionsDialog);
         }
 
-        private async Task HandleUserChoice(IDialogContext context, IAwaitable<string> result)
+        private async Task AfterInitialOptionsDialog(IDialogContext context, IAwaitable<string> result)
         {
-            //result.GetAwaiter().GetResult()
-            //TODO: Switch on the result, and forward the activity to the appropriate dialog
-            await context.PostAsync($"You said: {result.GetAwaiter().GetResult()}");
+            var message = await result;
+            if (message.Equals("buy", StringComparison.InvariantCultureIgnoreCase))
+            {
+                await context.PostAsync("Great! Let's get started.");
+                context.Call(new VehicleTypeDialog(), AfterVehicleTypeDialog);
+                return;
+            }
+            await context.PostAsync("I'm terribly sorry, I cannot do Selling or Inquiry at the moment :(");
+        }
+
+        private Task AfterVehicleTypeDialog(IDialogContext context, IAwaitable<string> result)
+        {
+            throw new NotImplementedException();
         }
     }
 }
