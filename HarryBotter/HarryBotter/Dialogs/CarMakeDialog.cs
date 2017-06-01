@@ -18,8 +18,7 @@ namespace HarryBotter.Dialogs
         private async Task HandleCarMake(IDialogContext context, IAwaitable<string> result)
         {
             var message = await result;
-            
-            await context.PostAsync(message);
+            context.Done(message);
         }
 
         //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
