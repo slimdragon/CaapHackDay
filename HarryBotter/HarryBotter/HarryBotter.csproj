@@ -114,6 +114,7 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\BiddingDialog.cs" />
     <Compile Include="Dialogs\AuctionListCarsDialog.cs" />
+    <Compile Include="Dialogs\GeoStateDialog.cs" />
     <Compile Include="Dialogs\InitialOptionsDialog.cs" />
     <Compile Include="Dialogs\ListAuctionsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
