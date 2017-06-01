@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarryBotter", "HarryBotter\HarryBotter.csproj", "{3B9C6217-F97E-4B85-ADC3-DDD5238D74EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarryBotter.DataService", "HarryBotter.DataService\HarryBotter.DataService.csproj", "{CDDDE7EC-7398-4F95-BCA8-0F25B89998F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3B9C6217-F97E-4B85-ADC3-DDD5238D74EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B9C6217-F97E-4B85-ADC3-DDD5238D74EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B9C6217-F97E-4B85-ADC3-DDD5238D74EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDDE7EC-7398-4F95-BCA8-0F25B89998F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDDE7EC-7398-4F95-BCA8-0F25B89998F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDDE7EC-7398-4F95-BCA8-0F25B89998F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDDE7EC-7398-4F95-BCA8-0F25B89998F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
