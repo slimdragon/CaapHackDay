@@ -59,10 +59,18 @@ namespace HarryBotter.DataService
             return _auctions.Where(a => a.State.Equals(state, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public IEnumerable<Vehicle> ListVehicles(Guid auctionId)
+        public IEnumerable<Vehicle> ListVehicles(string auctionName, string make)
         {
-            var url = "https://picklesdev.azure-api.net/api/v1.0/vehicles/sold?make=Ford&model=Territory&limit=25";
-            return url.WithHeader("Ocp-Apim-Subscription-Key", ConfigurationManager.AppSettings["SubscriptionKey"]).GetJsonAsync<Vehicle[]>().Result;
+            var url = $"https://picklesdev.azure-api.net/api/v1.0/vehicles/sold?make=Ford&model=Territory&limit=10";
+            try
+            {
+                return url.WithHeader("Ocp-Apim-Subscription-Key", ConfigurationManager.AppSettings["SubscriptionKey"]).GetJsonAsync<Response>().Result.Documents;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

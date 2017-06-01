@@ -2,6 +2,10 @@
 
 namespace HarryBotter.DataService
 {
+    public class Response
+    {
+        public Vehicle[] Documents { get; set; }
+    }
     public class Vehicle
     {
         public string Sale_Type_name { get; set; }
@@ -18,5 +22,6 @@ namespace HarryBotter.DataService
         public string Auction_Sale_Type { get; set; }
         public string Sold_Date { get; set; }
         public string ImageUrls { get; set; }
+        public string Description { get; set; }
     }
 }

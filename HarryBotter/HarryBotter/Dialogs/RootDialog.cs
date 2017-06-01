@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using HarryBotter.DataService;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 
 namespace HarryBotter.Dialogs
 {
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        private string _make;
+
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -16,8 +17,6 @@ namespace HarryBotter.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            context.PostAsync("Hi there. Welcome to Pickles Auctions.");
-            await context.PostAsync("My name is Harry Botter, and I'm here to assist you.");
             context.Call(new InitialOptionsDialog(), AfterInitialOptionsDialog);
         }
 
@@ -36,20 +35,37 @@ namespace HarryBotter.Dialogs
         private async Task AfterVehicleTypeDialog(IDialogContext context, IAwaitable<string> result)
         {
             var message = await result;
-
-            if(message == "Car")
+            if (message.Equals("Car", StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Call(new CarMakeDialog(), AfterCarMakeDialog);
-
+                return;
             }
+            context.PostAsync("Sorry, I only do cars!");
+            context.PostAsync("Call us on 1300 Pickles Auctions!");
         }
 
         private async Task AfterCarMakeDialog(IDialogContext context, IAwaitable<object> result)
         {
             var message = await result;
+            _make = message.ToString();
+            context.Call(new AuctionListCarsDialog(), AfterAuctionsListDialog);
+        }
 
-            
+        private async Task AfterAuctionsListDialog(IDialogContext context, IAwaitable<string> result)
+        {
+            var auction = await result;
+            context.Call(new BiddingInitiationDialog(auction, _make), AfterBiddingInitiationDialog);
+        }
 
+        private async Task AfterBiddingInitiationDialog(IDialogContext context, IAwaitable<string> result)
+        {
+            var vehicle = await result;
+            context.Call(new BiddingDialog(vehicle), AfterBiddingDialog);
+        }
+
+        private async Task AfterBiddingDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            context.PostAsync("Thank you!");
         }
     }
 }
