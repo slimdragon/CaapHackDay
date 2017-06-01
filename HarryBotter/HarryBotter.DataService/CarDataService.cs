@@ -17,5 +17,19 @@ namespace HarryBotter.DataService
                 "More!..."
             };
         }
+
+        public IEnumerable<string> ListMakesPage2()
+        {
+            return new List<string>
+            {
+                "Hyundai",
+                "VW",
+                "Renault",
+                "Isuzu",
+                "Chevy",
+                "Holden",
+                "More!..."
+            };
+        }
     }
 }

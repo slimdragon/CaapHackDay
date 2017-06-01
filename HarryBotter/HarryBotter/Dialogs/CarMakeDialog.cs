@@ -12,13 +12,23 @@ namespace HarryBotter.Dialogs
         public async Task StartAsync(IDialogContext context)
         {
             var carMakes = new CarDataService().ListMakes();
-            PromptDialog.Choice(context, HandleCarMake, carMakes, "choose a car make please?");
+            PromptDialog.Choice(context, HandleCarMake, carMakes, "Choose a car make please?");
         }
 
         private async Task HandleCarMake(IDialogContext context, IAwaitable<string> result)
         {
             var message = await result;
-            context.Done(message);
+
+            if (message == "More!...")
+            {
+                var carMakesP2 = new CarDataService().ListMakesPage2();
+                PromptDialog.Choice(context, HandleCarMake, carMakesP2, "Choose a car make please?");
+
+            }
+            else
+            {
+                context.Done(message);
+            }
         }
 
         //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
