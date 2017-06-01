@@ -21,7 +21,7 @@ namespace HarryBotter.DataService
         public string Colour { get; set; }
         public string Auction_Sale_Type { get; set; }
         public string Sold_Date { get; set; }
-        public string ImageUrls { get; set; }
+        public string Id { get; set; }
         public string Description { get; set; }
     }
 }
