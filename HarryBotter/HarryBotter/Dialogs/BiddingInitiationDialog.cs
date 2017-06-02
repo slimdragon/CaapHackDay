@@ -27,15 +27,19 @@ namespace HarryBotter.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
-            context.Wait(this.MessageReceivedAsync);
+            var reply = context.MakeMessage();
+            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+            reply.Attachments = GetCardsAttachments();
+                await context.PostAsync(reply);
+            context.Wait(MessageReceivedAsync);
         }
-       
+
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            var reply = context.MakeMessage();
             if (message.Value != null)
             {
+            var reply = context.MakeMessage();
                 Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(message.Value.ToString());
                 reply.Attachments.Add(GetHeroCard(
                             $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
@@ -53,20 +57,10 @@ namespace HarryBotter.Dialogs
                 reply.Attachments.Add(GetConditionRepoertImage());
                
                
+                await context.PostAsync(reply);
+                context.Done(message.Value);
             }
-            else
-            {
-                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                reply.Attachments = GetCardsAttachments();
-
-
-            }
-
-            await context.PostAsync(reply);
-
-            context.Wait(this.MessageReceivedAsync);
         }
-
         private static Attachment GetConditionRepoertImage()
         {
             var imagePath = HttpContext.Current.Server.MapPath("~/images/condition_report_sample.png");
@@ -77,7 +71,7 @@ namespace HarryBotter.Dialogs
                 Text = "",
                 Images = new List<CardImage> { new CardImage(imagePath) },
             };
-
+       
             return heroCard.ToAttachment();
         }
 
@@ -98,20 +92,6 @@ namespace HarryBotter.Dialogs
         private static Attachment GetHeroCard(string title, string subtitle, string text, CardImage cardImage, CardAction cardAction)
         {
             var heroCard = new HeroCard
-            {
-                Title = title,
-                Subtitle = subtitle,
-                Text = text,
-                Images = new List<CardImage>() { cardImage },
-                Buttons = new List<CardAction>() { cardAction },
-            };
-
-            return heroCard.ToAttachment();
-        }
-
-        private static Attachment GetThumbnailCard(string title, string subtitle, string text, CardImage cardImage, CardAction cardAction)
-        {
-            var heroCard = new ThumbnailCard
             {
                 Title = title,
                 Subtitle = subtitle,

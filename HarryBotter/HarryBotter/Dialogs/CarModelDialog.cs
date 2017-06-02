@@ -20,7 +20,7 @@ namespace HarryBotter.Dialogs
         {
             var carModels = new CarDataService().ListModels(_make);
             if(carModels.Count() == 1)
-                PromptDialog.Choice(context, HandleCarModel, carModels, $"Awesome! .. We have only one model of {_make}?");
+                PromptDialog.Choice(context, HandleCarModel, carModels, $"Awesome! .. We have only one model of {_make}");
                 else
             PromptDialog.Choice(context, HandleCarModel, carModels, $"Classy! .. and what kind of {_make} are you after?");
         }

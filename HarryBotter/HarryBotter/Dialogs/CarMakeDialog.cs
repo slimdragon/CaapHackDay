@@ -19,7 +19,7 @@ namespace HarryBotter.Dialogs
         {
             var message = await result;
 
-            if (message == "More!...")
+            if (message.IndexOf("more",StringComparison.InvariantCultureIgnoreCase) >=0)
             {
                 var carMakesP2 = new CarDataService().ListMakesPage2();
                 PromptDialog.Choice(context, HandleCarMake, carMakesP2, "Choose a car make please?");

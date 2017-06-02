@@ -128,13 +128,9 @@
     <Compile Include="Dialogs\AuctionListCarsDialog.cs" />
     <Compile Include="Dialogs\CarModelDialog.cs" />
     <Compile Include="Dialogs\InitialOptionsDialog.cs" />
-    <Compile Include="Dialogs\ListAuctionsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\CarMakeDialog.cs" />
-    <Compile Include="Dialogs\CarYearRangeDialog.cs" />
     <Compile Include="Dialogs\CarMileageDialog.cs" />
-    <Compile Include="Dialogs\AuctionOrFixedPriceDialog.cs" />
-    <Compile Include="Dialogs\VehicleTypeDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
