@@ -37,9 +37,10 @@ namespace HarryBotter.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
+            var reply = context.MakeMessage();
             if (message.Value != null)
             {
-            var reply = context.MakeMessage();
+
                 Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(message.Value.ToString());
                 reply.Attachments.Add(GetHeroCard(
                             $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
@@ -52,14 +53,11 @@ namespace HarryBotter.Dialogs
             }
             else if (message.Text == "ConditionReport")
             {
-
-
                 reply.Attachments.Add(GetConditionRepoertImage());
-               
-               
-                await context.PostAsync(reply);
-                context.Done(message.Value);
             }
+
+            await context.PostAsync(reply);
+            context.Done(message.Value);
         }
         private static Attachment GetConditionRepoertImage()
         {
