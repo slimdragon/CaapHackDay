@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using HarryBotter.DataService;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -10,16 +11,21 @@ namespace HarryBotter.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            PromptDialog.Choice(context, HandleUserChoice, new[] { "Buy", "Sell", "Inquiry" },
-               $"What are you up to today?!", "Please try again, and choose an option.");
+            PromptDialog.Text(context,HandleUserChoice,$"What are you up to today?!");
         }
 
         private async Task HandleUserChoice(IDialogContext context, IAwaitable<string> result)
         {
-            //result.GetAwaiter().GetResult()
-            //TODO: Switch on the result, and forward the activity to the appropriate dialog
-            //await context.PostAsync($"You said: {result.GetAwaiter().GetResult()}");
-            context.Done(result.GetAwaiter().GetResult());
+            var message = await result;
+            var score = new LuisService().Score(message);
+            if (score.Succeeded)
+                context.Done(
+                    score.LuisResult.TopScoringIntent?.Intent.IndexOf("buy a car",
+                        StringComparison.InvariantCultureIgnoreCase) >= 0
+                        ? "buy"
+                        : "other");
+            else
+                context.Done(message.IndexOf("buy", StringComparison.InvariantCultureIgnoreCase) >= 0 ? "buy" : "other");
         }
 
         //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
