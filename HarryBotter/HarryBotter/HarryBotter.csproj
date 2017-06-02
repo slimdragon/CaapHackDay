@@ -114,6 +114,7 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
+    <Content Include="images\condition_report_sample.png" />
     <Content Include="images\pickles.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Web;
 
 namespace HarryBotter.Dialogs
 {
@@ -40,9 +41,18 @@ namespace HarryBotter.Dialogs
                             $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
                             $"{vehicle.Model_Year} - {vehicle.Transmission_Type} - {vehicle.Colour}",
                             $"{vehicle.Fuel_Type} - {vehicle.Variant} - {vehicle.Series} - {vehicle.Region} - {vehicle.Description}",
-                            new CardImage(url: string.Format("https://www.pickles.com.au/getPublicStockImage?id=652327460")),
-                            new CardAction(ActionTypes.PostBack, "Show Damage Report", value: "DamageReport")
+                            new CardImage(url: "https://www.pickles.com.au/getPublicStockImage?id=652327460"),
+                            //new CardAction(ActionTypes.OpenUrl, "Show Condition Report", value: "https://www.pickles.com.au/cars/item/-/details/conditionreport/info/103454348")
+                            new CardAction(ActionTypes.PostBack, "Show Condition Report", value: "ConditionReport")
                             ));
+            }
+            else if (message.Text == "ConditionReport")
+            {
+
+
+                reply.Attachments.Add(GetConditionRepoertImage());
+               
+               
             }
             else
             {
@@ -57,7 +67,19 @@ namespace HarryBotter.Dialogs
             context.Wait(this.MessageReceivedAsync);
         }
 
-       
+        private static Attachment GetConditionRepoertImage()
+        {
+            var imagePath = HttpContext.Current.Server.MapPath("~/images/condition_report_sample.png");
+            var heroCard = new HeroCard
+            {
+                Title = "",
+                Subtitle = "",
+                Text = "",
+                Images = new List<CardImage> { new CardImage(imagePath) },
+            };
+
+            return heroCard.ToAttachment();
+        }
 
         private IList<Attachment> GetCardsAttachments()
         {
@@ -69,7 +91,7 @@ namespace HarryBotter.Dialogs
                             string.Format("{0} {1} {2}", c.Auction_Sale_Type, c.Colour, c.Fuel_Type),
                             c.Description,
                             new CardImage(url: string.Format("https://www.pickles.com.au/getPublicStockImage?id=652327{0}", c.Id.Substring(0,3))),
-                            new CardAction(ActionTypes.PostBack, "Bid Now", value: c)
+                            new CardAction(ActionTypes.PostBack, "Select", value: c)
                             )).ToList();
         }
 
