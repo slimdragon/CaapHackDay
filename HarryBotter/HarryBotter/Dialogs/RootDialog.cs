@@ -9,6 +9,7 @@ namespace HarryBotter.Dialogs
     public class RootDialog : IDialog<object>
     {
         private string _make;
+        private string _model;
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -48,13 +49,21 @@ namespace HarryBotter.Dialogs
         {
             var message = await result;
             _make = message.ToString();
+            context.Call(new CarModelDialog(_make), AfterCarModelDialog);
+        }
+
+        private async Task AfterCarModelDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            var message = await result;
+            _model = message.ToString();
             context.Call(new AuctionListCarsDialog(), AfterAuctionsListDialog);
         }
+
 
         private async Task AfterAuctionsListDialog(IDialogContext context, IAwaitable<string> result)
         {
             var auction = await result;
-            context.Call(new BiddingInitiationDialog(auction, _make), AfterBiddingInitiationDialog);
+            context.Call(new BiddingInitiationDialog(auction, _make, _model), AfterBiddingInitiationDialog);
         }
 
         private async Task AfterBiddingInitiationDialog(IDialogContext context, IAwaitable<string> result)

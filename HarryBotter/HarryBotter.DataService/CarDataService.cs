@@ -537,6 +537,11 @@ namespace HarryBotter.DataService
             return list;
         }
 
+        public IEnumerable<string> ListModels(string make)
+        {
+            return _vehicleMakes.Where(a => a.Make == make).OrderBy(a => a.Model).Select(a => a.Model).Distinct().ToList();
+        }
+
         public IEnumerable<string> ListMakesPage2()
         {
             var list = _makes.OrderBy(a => a).Skip(10).ToList();

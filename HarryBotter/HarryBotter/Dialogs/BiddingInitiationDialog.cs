@@ -14,11 +14,13 @@ namespace HarryBotter.Dialogs
     {
         private readonly string _auctionName;
         private readonly string _make;
+        private readonly string _model;
 
-        public BiddingInitiationDialog(string auctionName, string make)
+        public BiddingInitiationDialog(string auctionName, string make, string model)
         {
             _auctionName = auctionName;
             _make = make;
+            _model = model;
         }
 
         public async Task StartAsync(IDialogContext context)
@@ -40,7 +42,7 @@ namespace HarryBotter.Dialogs
         private IList<Attachment> GetCardsAttachments()
         {
 
-            return new AuctionsDataService().ListVehicles(_auctionName, _make)
+            return new AuctionsDataService().ListVehicles(_auctionName, _make,_model)
                     .ToList()
                     .Select(c => GetHeroCard(
                             string.Format("{0} {1} {2}", c.Model_Year, c.Make, c.Body_Tyep),
