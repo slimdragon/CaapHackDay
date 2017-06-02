@@ -6,6 +6,8 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System.Linq;
 using System;
+using System.Web;
+using System.Collections.Generic;
 
 namespace HarryBotter
 {
@@ -50,8 +52,8 @@ namespace HarryBotter
                         var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
 
                         var response = activity.CreateReply();
-                        response.Text = "Hi there. Welcome to Pickles Auctions. " +
-                                        "My name is Harry Botter, and I'm here to assist you.";
+                        var attachment = GetWelcomeHeroCard();
+                        response.Attachments.Add(attachment);
                         await connector.Conversations.ReplyToActivityAsync(response);
                         await ProcessingActivity(activity);
                     }
@@ -69,6 +71,21 @@ namespace HarryBotter
                     break;
             };
             return null;
+        }
+
+        private static Attachment GetWelcomeHeroCard()
+        {
+            var imagePath = HttpContext.Current.Server.MapPath("~/images/pickles.png");
+            var heroCard = new HeroCard
+            {
+                Title = "Welcome to Pickles Auctions",
+                Subtitle = "",
+                Text = "My name is Harry Botter, and I'm here to assist you.",
+                Images = new List<CardImage> { new CardImage(imagePath) },
+                //Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
+            };
+
+            return heroCard.ToAttachment();
         }
     }
 }

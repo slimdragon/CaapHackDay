@@ -24,8 +24,8 @@ namespace HarryBotter.Dialogs
         private async Task AfterInitialOptionsDialog(IDialogContext context, IAwaitable<string> result)
         {
             var message = await result;
-            if (message.Equals("buy", StringComparison.InvariantCultureIgnoreCase))
-            {
+            if (message.IndexOf("buy", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
                 await context.PostAsync("Great! Let's get started.");
                 context.Call(new VehicleTypeDialog(), AfterVehicleTypeDialog);
                 return;
@@ -36,8 +36,9 @@ namespace HarryBotter.Dialogs
         private async Task AfterVehicleTypeDialog(IDialogContext context, IAwaitable<string> result)
         {
             var message = await result;
-            if (message.Equals("Car", StringComparison.InvariantCultureIgnoreCase))
+            if (message.IndexOf("car", StringComparison.InvariantCultureIgnoreCase) >= 0)
             {
+                await context.PostAsync("You can rely on us on providing high-quality, as well as cost efficient, cars .. ");
                 context.Call(new CarMakeDialog(), AfterCarMakeDialog);
                 return;
             }
@@ -49,6 +50,7 @@ namespace HarryBotter.Dialogs
         {
             var message = await result;
             _make = message.ToString();
+            await context.PostAsync($"One of my friends has a {_make}, and he's really enjoying it!");
             context.Call(new CarModelDialog(_make), AfterCarModelDialog);
         }
 
@@ -56,9 +58,9 @@ namespace HarryBotter.Dialogs
         {
             var message = await result;
             _model = message.ToString();
+            await context.PostAsync($"The good news is, we sell heaps of {_make} {_model}s.");
             context.Call(new AuctionListCarsDialog(), AfterAuctionsListDialog);
         }
-
 
         private async Task AfterAuctionsListDialog(IDialogContext context, IAwaitable<string> result)
         {
