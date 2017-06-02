@@ -15,7 +15,7 @@ namespace HarryBotter.Dialogs
         {
             PromptDialog.Choice(context, this.AfterSelectOption, 
                 new string[] { "Bid Now", "Select another car", "Stop Bidding?" },
-                "Current bid is A$ 5000. Raise Bid?");
+                "Current bid is $5,000. Raise Bid?");
         }
 
         private async Task AfterSelectOption(IDialogContext context, IAwaitable<string> result)

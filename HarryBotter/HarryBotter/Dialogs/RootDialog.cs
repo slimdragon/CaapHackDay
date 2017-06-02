@@ -47,14 +47,7 @@ namespace HarryBotter.Dialogs
             _model = message.ToString();
             await context.PostAsync($"The good news is, we sell heaps of {_make} {_model}s.");
             context.Call(new BiddingInitiationDialog(string.Empty,_make,_model), AfterBiddingInitiationDialog);
-            //context.Call(new AuctionListCarsDialog(), AfterAuctionsListDialog);
         }
-
-        //private async Task AfterAuctionsListDialog(IDialogContext context, IAwaitable<string> result)
-        //{
-        //    var auction = await result;
-        //    context.Call(new BiddingInitiationDialog(auction, _make, _model), AfterBiddingInitiationDialog);
-        //}
 
         private async Task AfterBiddingInitiationDialog(IDialogContext context, IAwaitable<string> result)
         {
@@ -64,7 +57,7 @@ namespace HarryBotter.Dialogs
 
         private async Task AfterBiddingDialog(IDialogContext context, IAwaitable<object> result)
         {
-            context.PostAsync("Thank you!");
+            context.PostAsync("This is the end of the 2-days version of Harry Botter.");
         }
     }
 }
