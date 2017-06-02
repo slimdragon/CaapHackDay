@@ -47,7 +47,7 @@ namespace HarryBotter.Dialogs
                             string.Format("{0} {1} {2}", c.Auction_Sale_Type, c.Colour, c.Fuel_Type),
                             c.Description,
                             new CardImage(url: string.Format("https://www.pickles.com.au/getPublicStockImage?id=652327{0}", c.Id.Substring(0,3))),
-                            new CardAction(ActionTypes.OpenUrl, "Place a bid", value: "https://azure.microsoft.com/en-us/services/storage/")
+                            new CardAction(ActionTypes.ImBack, "Place a bid", value: "https://github.com/slimdragon/CaapHackDay")
                             )).ToList();
         }
 
