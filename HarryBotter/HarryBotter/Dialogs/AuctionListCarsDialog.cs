@@ -17,8 +17,7 @@ namespace HarryBotter.Dialogs
 
         private async Task HandleAuctions(IDialogContext context, IAwaitable<string> result)
         {
-            var message = await result;
-            context.Done(message);
+            context.Done(await result);
         }
     }
 }
