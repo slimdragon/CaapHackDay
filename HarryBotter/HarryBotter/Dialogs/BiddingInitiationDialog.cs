@@ -37,30 +37,30 @@ namespace HarryBotter.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
+            var reply = context.MakeMessage();
             if (message.Value != null)
             {
-            var reply = context.MakeMessage();
                 Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(message.Value.ToString());
                 reply.Attachments.Add(GetHeroCard(
-                            $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
-                            $"{vehicle.Model_Year} - {vehicle.Transmission_Type} - {vehicle.Colour}",
-                            $"{vehicle.Fuel_Type} - {vehicle.Variant} - {vehicle.Series} - {vehicle.Region} - {vehicle.Description}",
-                            new CardImage(url: "https://www.pickles.com.au/getPublicStockImage?id=652327460"),
-                            //new CardAction(ActionTypes.OpenUrl, "Show Condition Report", value: "https://www.pickles.com.au/cars/item/-/details/conditionreport/info/103454348")
-                            new CardAction(ActionTypes.PostBack, "Show Condition Report", value: "ConditionReport")
-                            ));
+                    $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
+                    $"{vehicle.Model_Year} - {vehicle.Transmission_Type} - {vehicle.Colour}",
+                    $"{vehicle.Fuel_Type} - {vehicle.Variant} - {vehicle.Series} - {vehicle.Region} - {vehicle.Description}",
+                    new CardImage(url: "https://www.pickles.com.au/getPublicStockImage?id=652327460"),
+                    //new CardAction(ActionTypes.OpenUrl, "Show Condition Report", value: "https://www.pickles.com.au/cars/item/-/details/conditionreport/info/103454348")
+                    new CardAction(ActionTypes.PostBack, "Show Condition Report", value: "ConditionReport")
+                ));
             }
             else if (message.Text == "ConditionReport")
             {
-
-
                 reply.Attachments.Add(GetConditionRepoertImage());
-               
-               
-                await context.PostAsync(reply);
+
+
                 context.Done(message.Value);
             }
+            await context.PostAsync(reply);
         }
+
+
         private static Attachment GetConditionRepoertImage()
         {
             var imagePath = HttpContext.Current.Server.MapPath("~/images/condition_report_sample.png");
