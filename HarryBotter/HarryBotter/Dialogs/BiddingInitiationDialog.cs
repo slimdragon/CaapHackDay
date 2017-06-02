@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.Dialogs;
 
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace HarryBotter.Dialogs
 {
@@ -25,19 +26,42 @@ namespace HarryBotter.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
-            var reply = context.MakeMessage();
-            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            reply.Attachments = GetCardsAttachments();
-            await context.PostAsync(reply);
             context.Wait(this.MessageReceivedAsync);
         }
+       
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
+            var message = await result;
+            var reply = context.MakeMessage();
+            if (message.Value != null)
+            {
+                Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(message.Value.ToString());
+                reply.Attachments.Add(GetHeroCard(
+                            $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
+                            $"{vehicle.Model_Year} - {vehicle.Transmission_Type} - {vehicle.Colour}",
+                            $"{vehicle.Fuel_Type} - {vehicle.Variant} - {vehicle.Series} - {vehicle.Region} - {vehicle.Description}",
+                            new CardImage(url: string.Format("https://www.pickles.com.au/getPublicStockImage?id=652327460")),
+                            new CardAction(ActionTypes.PostBack, "Show Damage Report", value: "DamageReport")
+                            ));
+            }
+            else
+            {
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                reply.Attachments = GetCardsAttachments();
+
+
+            }
+
+            await context.PostAsync(reply);
+
             context.Wait(this.MessageReceivedAsync);
         }
 
+       
+
         private IList<Attachment> GetCardsAttachments()
         {
+
             return new AuctionsDataService().ListVehicles(_auctionName, _make,_model)
                     .ToList()
                     .Select(c => GetHeroCard(
@@ -45,7 +69,7 @@ namespace HarryBotter.Dialogs
                             string.Format("{0} {1} {2}", c.Auction_Sale_Type, c.Colour, c.Fuel_Type),
                             c.Description,
                             new CardImage(url: string.Format("https://www.pickles.com.au/getPublicStockImage?id=652327{0}", c.Id.Substring(0,3))),
-                            new CardAction(ActionTypes.ImBack, "Place a bid", value: "https://github.com/slimdragon/CaapHackDay")
+                            new CardAction(ActionTypes.PostBack, "Bid Now", value: c)
                             )).ToList();
         }
 
