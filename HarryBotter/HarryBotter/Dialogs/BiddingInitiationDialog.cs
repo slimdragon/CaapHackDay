@@ -25,23 +25,19 @@ namespace HarryBotter.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
+            var reply = context.MakeMessage();
+            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+            reply.Attachments = GetCardsAttachments();
+            await context.PostAsync(reply);
             context.Wait(this.MessageReceivedAsync);
         }
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            var reply = context.MakeMessage();
-
-            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            reply.Attachments = GetCardsAttachments();
-
-            await context.PostAsync(reply);
-
             context.Wait(this.MessageReceivedAsync);
         }
 
         private IList<Attachment> GetCardsAttachments()
         {
-
             return new AuctionsDataService().ListVehicles(_auctionName, _make,_model)
                     .ToList()
                     .Select(c => GetHeroCard(

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using HarryBotter.DataService;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 
 namespace HarryBotter.Dialogs
 {
@@ -11,7 +10,7 @@ namespace HarryBotter.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            PromptDialog.Text(context,HandleUserChoice,$"What are you up to today?!");
+            PromptDialog.Text(context,HandleUserChoice,"What are you up to today?!");
         }
 
         private async Task HandleUserChoice(IDialogContext context, IAwaitable<string> result)
@@ -27,11 +26,5 @@ namespace HarryBotter.Dialogs
             else
                 context.Done(message.IndexOf("buy", StringComparison.InvariantCultureIgnoreCase) >= 0 ? "buy" : "other");
         }
-
-        //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        //{
-        //    var message = await result;
-        //    context.Done(message.Text);
-        //}
     }
 }

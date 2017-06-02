@@ -61,7 +61,7 @@ namespace HarryBotter.DataService
 
         public IEnumerable<Vehicle> ListVehicles(string auctionName, string make, string model)
         {
-            var url = $"https://picklesdev.azure-api.net/api/v1.0/vehicles/sold?make={make}&model={model}&limit=25";
+            var url = $"https://picklesdev.azure-api.net/api/v1.0/vehicles/sold?make={make}&model={model}&limit=10";
             try
             {
                 return url.WithHeader("Ocp-Apim-Subscription-Key", ConfigurationManager.AppSettings["SubscriptionKey"]).GetJsonAsync<Response>().Result.Documents;
