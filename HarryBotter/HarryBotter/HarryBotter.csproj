@@ -121,6 +121,7 @@
     <Compile Include="Dialogs\BiddingDialog.cs" />
     <Compile Include="Dialogs\BiddingInitiationDialog.cs" />
     <Compile Include="Dialogs\AuctionListCarsDialog.cs" />
+    <Compile Include="Dialogs\CarModelDialog.cs" />
     <Compile Include="Dialogs\InitialOptionsDialog.cs" />
     <Compile Include="Dialogs\ListAuctionsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
