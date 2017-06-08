@@ -30,7 +30,7 @@ namespace HarryBotter.Dialogs
                 context.Call(new CarMakeDialog(), AfterCarMakeDialog);
                 return;
             }
-            await context.PostAsync("I'm terribly sorry, I cannot do Selling or Inquiry at the moment :(");
+            await context.PostAsync("I'm terribly sorry, I can only help you buy a car at the moment :(");
         }
 
         private async Task AfterCarMakeDialog(IDialogContext context, IAwaitable<object> result)
