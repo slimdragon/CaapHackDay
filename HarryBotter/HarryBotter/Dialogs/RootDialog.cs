@@ -37,7 +37,7 @@ namespace HarryBotter.Dialogs
         {
             var message = await result;
             _make = message.ToString();
-            await context.PostAsync($"One of my friends has a {_make}, and he's really enjoying it!");
+            //await context.PostAsync($"One of my friends has a {_make}, and he's really enjoying it!");
             context.Call(new CarModelDialog(_make), AfterCarModelDialog);
         }
 
@@ -57,7 +57,7 @@ namespace HarryBotter.Dialogs
 
         private async Task AfterBiddingDialog(IDialogContext context, IAwaitable<object> result)
         {
-            context.PostAsync("This is the end of the 2-days version of Harry Botter.");
+            await context.PostAsync("This is the end of the 2-days version of Harry Botter.");
         }
     }
 }
