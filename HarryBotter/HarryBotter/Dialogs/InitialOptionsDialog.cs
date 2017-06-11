@@ -18,11 +18,14 @@ namespace HarryBotter.Dialogs
             var message = await result;
             var score = new LuisService().Score(message);
             if (score.Succeeded)
+            {
+                await context.PostAsync($"I understand your intent is to {score.LuisResult.TopScoringIntent?.Intent}");
                 context.Done(
                     score.LuisResult.TopScoringIntent?.Intent.IndexOf("buy a car",
                         StringComparison.InvariantCultureIgnoreCase) >= 0
                         ? "buy"
                         : "other");
+            }
             else
                 context.Done(message.IndexOf("buy", StringComparison.InvariantCultureIgnoreCase) >= 0 ? "buy" : "other");
         }
