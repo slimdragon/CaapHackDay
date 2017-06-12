@@ -31,6 +31,8 @@ namespace HarryBotter.Dialogs
                 return;
             }
             await context.PostAsync("I'm terribly sorry, I can only help you buy a car at the moment :(");
+            context.Call(new InitialOptionsDialog(), AfterInitialOptionsDialog);
+
         }
 
         private async Task AfterCarMakeDialog(IDialogContext context, IAwaitable<object> result)
