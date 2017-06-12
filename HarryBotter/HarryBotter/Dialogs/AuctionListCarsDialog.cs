@@ -13,7 +13,6 @@ namespace HarryBotter.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            //context.PostAsync("Here is a list of auctions");
             var auctions =
                 new AuctionsDataService().ListActions();
 

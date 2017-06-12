@@ -11,6 +11,7 @@ namespace HarryBotter.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
+            context.ConversationData.Clear();
             var carMakes = new CarDataService().ListMakes();
             PromptDialog.Choice(context, HandleCarMake, carMakes, "Choose a car make please?");
         }

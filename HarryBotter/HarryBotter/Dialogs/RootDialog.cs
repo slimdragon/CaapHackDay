@@ -57,7 +57,22 @@ namespace HarryBotter.Dialogs
 
         private async Task AfterBiddingDialog(IDialogContext context, IAwaitable<object> result)
         {
-            await context.PostAsync("This is the end of the 2-days version of Harry Botter.");
+            var message = await result;
+            string text = (string)message;
+            if (text == "StillBidding")
+            {
+                context.Call(new BiddingDialog(text), AfterBiddingDialog);
+            }
+            else if (text == "ShowCarousel")
+            {
+                //context.Call(new CarModelDialog(_make), AfterCarModelDialog);
+                context.Call(new CarMakeDialog(), AfterCarMakeDialog);
+            }
+            else
+            {
+                await context.PostAsync("This is the end of the 2-days version of Harry Botter.");
+                context.Call(new InitialOptionsDialog(), AfterInitialOptionsDialog);
+            }
         }
     }
 }
