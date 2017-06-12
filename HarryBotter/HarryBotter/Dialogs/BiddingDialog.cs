@@ -16,20 +16,15 @@ namespace HarryBotter.Dialogs
         public async Task StartAsync(IDialogContext context)
         {
             context.ConversationData.TryGetValue<string>("CurrentBid", out currentBid);
-            if (!string.IsNullOrEmpty(currentBid))
-            {
-                PromptDialog.Choice(context, this.AfterSelectOption,
-                    new string[] { "Bid Now", "Select another car", "Stop Bidding?" },
-                    $"Current bid is ${currentBid}. Raise Bid?");
-            }
-            else
+            if (string.IsNullOrEmpty(currentBid))
             {
                 currentBid = "5000";
                 context.ConversationData.SetValue<string>("CurrentBid", currentBid);
-                PromptDialog.Choice(context, this.AfterSelectOption,
-                    new string[] { "Bid Now", "Select another car", "Stop Bidding?" },
-                    $"Current bid is ${currentBid}. Raise Bid?");
             }
+
+            PromptDialog.Choice(context, this.AfterSelectOption,
+                new string[] { "Bid Now", "Select another car", "Stop Bidding?" },
+                $"Current bid is ${currentBid}. Raise Bid?");
         }
 
         private async Task AfterSelectOption(IDialogContext context, IAwaitable<string> result)

@@ -64,7 +64,8 @@ namespace HarryBotter.Dialogs
         {
             var score = new LuisService().Score(await result);
             if (score.Succeeded &&
-                score.LuisResult.TopScoringIntent.Intent.IndexOf("Yes", StringComparison.InvariantCultureIgnoreCase) > 0)
+                //score.LuisResult.TopScoringIntent.Intent.IndexOf("Yes", StringComparison.InvariantCultureIgnoreCase) > 0)
+                score.LuisResult.TopScoringIntent.Intent == "Yes")
                 context.Done("Yes");
             else
                 context.Done("No");

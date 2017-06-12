@@ -51,8 +51,11 @@ namespace HarryBotter.Dialogs
 
         private async Task AfterBiddingInitiationDialog(IDialogContext context, IAwaitable<string> result)
         {
-            var vehicle = await result;
-            context.Call(new BiddingDialog(vehicle), AfterBiddingDialog);
+            var messgae = await result;
+            if(messgae == "Yes")
+                context.Call(new BiddingDialog(messgae), AfterBiddingDialog);
+            else
+                context.Call(new InitialOptionsDialog(), AfterInitialOptionsDialog);
         }
 
         private async Task AfterBiddingDialog(IDialogContext context, IAwaitable<object> result)
