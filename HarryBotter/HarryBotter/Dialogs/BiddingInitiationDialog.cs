@@ -42,11 +42,10 @@ namespace HarryBotter.Dialogs
             {
                 Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(message.Value.ToString());
                 reply.Attachments.Add(GetHeroCard(
-                    $"{vehicle.Make} - {vehicle.Model} - {vehicle.Body_Tyep}",
-                    $"{vehicle.Model_Year} - {vehicle.Transmission_Type} - {vehicle.Colour}",
-                    $"{vehicle.Fuel_Type} - {vehicle.Variant} - {vehicle.Series} - {vehicle.Region} - {vehicle.Description}",
-                    new CardImage(url: "https://www.pickles.com.au/getPublicStockImage?id=652327460"),
-                    //new CardAction(ActionTypes.OpenUrl, "Show Condition Report", value: "https://www.pickles.com.au/cars/item/-/details/conditionreport/info/103454348")
+                    $"{vehicle.Make} - {vehicle.Model}",
+                    $"{vehicle.Description}",
+                    $"{vehicle.Id} - {vehicle.ItemId} - {vehicle.Odometer} - {vehicle.Year} - {vehicle.PriceGuide} - {vehicle.Rego}",
+                    new CardImage(url: vehicle.ImageUrl),
                     new CardAction(ActionTypes.PostBack, "Show Condition Report", value: "ConditionReport")
                 ));
             }
@@ -54,7 +53,7 @@ namespace HarryBotter.Dialogs
             {
                 //context.UserData.SetValue("Vehicle",);
                 reply.Attachments.Add(GetConditionRepoertImage());
-                PromptDialog.Text(context,HandleBidDecision,"Would you like to place a bid on this car?");
+                PromptDialog.Text(context, HandleBidDecision, "Would you like to place a bid on this car?");
             }
 
             await context.PostAsync(reply);
@@ -87,16 +86,17 @@ namespace HarryBotter.Dialogs
 
         private IList<Attachment> GetCardsAttachments()
         {
-
-            return new AuctionsDataService().ListVehicles(_auctionName, _make,_model)
-                    .ToList()
-                    .Select(c => GetHeroCard(
-                            string.Format("{0} {1} {2}", c.Model_Year, c.Make, c.Body_Tyep),
-                            string.Format("{0} {1} {2}", c.Auction_Sale_Type, c.Colour, c.Fuel_Type),
+            Task<IEnumerable<Vehicle>> cars = new AuctionsDataService().ListVehiclesAsync(_auctionName, _make, _model);
+            
+            return cars.Result.ToList()
+                .Select(c => GetHeroCard(
+                            $"{c.Model} - {c.Make}",
                             c.Description,
-                            new CardImage(url: string.Format("https://www.pickles.com.au/getPublicStockImage?id=652327{0}", c.Id.Substring(0,3))),
+                            $"{c.Year} - {c.Odometer} - {c.PriceGuide}",
+                            new CardImage(url: c.ImageUrl),
                             new CardAction(ActionTypes.PostBack, "Select", value: c)
                             )).ToList();
+
         }
 
         private static Attachment GetHeroCard(string title, string subtitle, string text, CardImage cardImage, CardAction cardAction)
