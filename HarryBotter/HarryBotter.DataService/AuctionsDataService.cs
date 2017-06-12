@@ -65,36 +65,43 @@ namespace HarryBotter.DataService
 
         public async Task<IEnumerable<Vehicle>> ListVehiclesAsync(string auctionName, string make, string model)
         {
-            //call api and search vehicles
-            var url = $"http://webapplication120170608053956.azurewebsites.net/api/cars?make={make}&model={model}";
-            IFlurlClient client = url.WithHeader("Accept", "application/json");
-            Task <string> strTask = client.GetStringAsync();
-
-            //add a root emelemt to match the model and deserialize
-            string str = "{\"Documents\":" + strTask.Result + "}";
-            var jsonObject = JsonConvert.DeserializeObject<Response>(str);
-            List<Vehicle> vehicles = jsonObject.Documents;
-
-            //Add image url to vehicles
-            ImagesResponse carImages = null;
-            foreach (var veh in vehicles)
+            try
             {
-                //get images from image management API
-                carImages = GetImages(vehicles, veh.ItemId);
+                //call api and search vehicles
+                var url = $"http://webapplication120170608053956.azurewebsites.net/api/cars?make={make}&model={model}";
+                IFlurlClient client = url.WithHeader("Accept", "application/json");
+                Task<string> strTask = client.GetStringAsync();
 
-                //just get any relevant image
-                foreach (var image in carImages.images)
+                //add a root emelemt to match the model and deserialize
+                string str = "{\"Documents\":" + strTask.Result + "}";
+                var jsonObject = JsonConvert.DeserializeObject<Response>(str);
+                List<Vehicle> vehicles = jsonObject.Documents;
+
+                //Add image url to vehicles
+                ImagesResponse carImages = null;
+                foreach (var veh in vehicles)
                 {
-                    if (image.Value.item_id == veh.ItemId)
+                    //get images from image management API
+                    carImages = GetImages(vehicles, veh.ItemId);
+
+                    //just get any relevant image
+                    foreach (var image in carImages.images)
                     {
-                        veh.ImageUrl = image.Value.cdn_url;
-                        //stop at first match
-                        break;
+                        if (image.Value.item_id == veh.ItemId)
+                        {
+                            veh.ImageUrl = image.Value.cdn_url;
+                            //stop at first match
+                            break;
+                        }
                     }
                 }
-            }
 
-            return jsonObject.Documents;
+                return jsonObject.Documents;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public static ImagesResponse GetImages(List<Vehicle> cars, string itemId)
